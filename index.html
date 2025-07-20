@@ -2,65 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Real Telegram + TON Connect</title>
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <title>TON Pay</title>
 </head>
-<body style="font-family: sans-serif; text-align: center; padding: 50px;">
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+  <h1 class="text-2xl mb-4">🔗 Connect TON Wallet</h1>
 
-  <!-- 🔵 Telegram Connect Real Button -->
-  <h2>🔵 Connect Telegram (Real)</h2>
-  <script async src="https://telegram.org/js/telegram-widget.js?22"
-    data-telegram-login="DropNFTs_bot"
-    data-size="large"
-    data-radius="10"
-    data-auth-url="https://droptgnft.github.io/auth.html"
-    data-request-access="write">
-  </script>
-
-  <br><br>
-
-  <!-- 🟡 TON Connect -->
-  <h2>🟡 Connect TON Wallet</h2>
   <div id="ton-connect-button"></div>
 
-  <button onclick="sendTestTon()" style="padding: 10px 20px; font-size: 16px; margin-top: 10px;">
-    🚀 Send 1 TON (Testnet)
+  <button id="sendTon" class="mt-6 px-4 py-2 bg-blue-500 text-white rounded">
+    Pay 1 TON
   </button>
+
+  <!-- TonConnectUI -->
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
   <script>
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-      manifestUrl: "https://droptgnft.github.io/tonconnect-manifest.json", // ✅ Replace this if needed
+      manifestUrl: "https://droptgnft.github.io/tonconnect-manifest.json",
       buttonRootId: "ton-connect-button"
     });
 
-    async function sendTestTon() {
-      const connected = await tonConnectUI.connected;
-      if (!connected) {
-        alert("⚠️ Please connect your TON wallet first.");
+    document.getElementById("sendTon").onclick = async () => {
+      const connectedWallet = await tonConnectUI.connected;
+      if (!connectedWallet) {
+        alert("Please connect your wallet first.");
         return;
       }
 
-      const tx = {
-        validUntil: Math.floor(Date.now() / 1000) + 600,
-        messages: [
-          {
-            address: "EQDXXXXXXXXXXXXXXXXXXXXXXXXXXXX",  // ✅ Replace with your test address
-            amount: "1000000000"
-          }
-        ]
-      };
-
       try {
-        const result = await tonConnectUI.sendTransaction(tx);
-        console.log("✅ Transaction Sent:", result);
-        alert("✅ 1 TON Testnet Sent!");
-      } catch (error) {
-        console.error("❌ Error:", error);
-        alert("❌ Transaction Failed!");
+        await tonConnectUI.sendTransaction({
+          validUntil: Math.floor(Date.now() / 1000) + 600, // expires in 10 min
+          messages: [
+            {
+              address: "YOUR_WALLET_ADDRESS_HERE", // 🔴 তোমার Wallet address এখানে দাও
+              amount: (1 * 1e9).toString(), // 1 TON in nanoTON
+              payload: ""
+            }
+          ]
+        });
+      } catch (e) {
+        alert("Transaction cancelled or failed.");
+        console.error(e);
       }
-    }
+    };
   </script>
-
 </body>
 </html>
