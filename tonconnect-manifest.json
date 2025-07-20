@@ -1,0 +1,10 @@
+{
+  "url": "https://droptgnft.github.io", 
+  "name": "DropTG NFT",
+  "iconUrl": "https://droptgnft.github.io/logo.png",
+  "termsOfUseUrl": "https://droptgnft.github.io/terms.html",
+  "privacyPolicyUrl": "https://droptgnft.github.io/privacy.html",
+  "manifestVersion": "1",
+  "bridgeUrl": "https://bridge.tonapi.io/bridge",
+  "network": "testnet"
+}
