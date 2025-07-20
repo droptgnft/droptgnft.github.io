@@ -6,5 +6,5 @@
   "privacyPolicyUrl": "https://droptgnft.github.io/privacy.html",
   "manifestVersion": "1",
   "bridgeUrl": "https://bridge.tonapi.io/bridge",
-  "network": "testnet"
+  "network": "mainnet"
 }
